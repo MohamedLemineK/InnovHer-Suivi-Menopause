@@ -1,4 +1,3 @@
-// pages/index.js
 "use client";
 
 import { useState } from "react";
@@ -38,18 +37,18 @@ export default function Questionnaire() {
     const newAnswers = [...answers];
     newAnswers[index] = value;
     setAnswers(newAnswers);
-  };
 
-  const handleNext = (currentIndex) => {
-    if (currentIndex < questions.length - 1) {
-      scroller.scrollTo(`question-${currentIndex + 1}`, {
+    // Passer automatiquement à la question suivante
+    if (index < questions.length - 1) {
+      scroller.scrollTo(`question-${index + 1}`, {
         duration: 500,
         delay: 0,
         smooth: "easeInOutQuart",
       });
     } else {
+      // Si c'est la dernière question
       alert("Merci d'avoir complété le questionnaire !");
-      console.log("Réponses :", answers);
+      console.log("Réponses : ", newAnswers);
     }
   };
 
@@ -87,6 +86,7 @@ export default function Questionnaire() {
                           className={`flex items-center space-x-4 p-4 border border-gray-300 rounded-md ${
                               answers[index] === option ? "bg-purpleAccent text-white" : ""
                           }`}
+                          onClick={() => handleAnswerChange(index, option)}
                       >
                         <input
                             type="radio"
@@ -94,18 +94,12 @@ export default function Questionnaire() {
                             value={option}
                             className="hidden"
                             checked={answers[index] === option}
-                            onChange={() => handleAnswerChange(index, option)}
+                            onChange={() => {}}
                         />
                         <span className="text-lg">{option}</span>
                       </label>
                   ))}
                 </div>
-                <button
-                    onClick={() => handleNext(index)}
-                    className="bg-purpleAccent text-white px-6 py-3 rounded-md mt-6"
-                >
-                  {index < questions.length - 1 ? "Suivant" : "Terminer"}
-                </button>
               </Element>
           ))}
         </div>
