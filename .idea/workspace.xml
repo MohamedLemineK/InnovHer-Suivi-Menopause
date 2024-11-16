@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ebf9ee6e-ec75-42a2-bbc6-08df89a48e5b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/InnovHer-Suivi-Menopause.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/untitled/src/app/packs/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/untitled/src/app/packs/page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/untitled/src/app/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/untitled/src/app/page.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +74,7 @@
       <option name="presentableId" value="Default" />
       <updated>1731747948359</updated>
       <workItem from="1731747959840" duration="9997000" />
-      <workItem from="1731764564284" duration="2967000" />
+      <workItem from="1731764564284" duration="3696000" />
     </task>
     <servers />
   </component>

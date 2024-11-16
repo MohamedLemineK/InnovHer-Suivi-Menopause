@@ -1,0 +1,299 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "title": "Bouffées de chaleur",
+      "question": "Vous arrive-t-il de vous réveiller en nage au beau milieu de la nuit ou de transformer votre bureau en sauna ?",
+      "options": [
+        {
+          "text": "Oui, souvent, et c’est infernal",
+          "points": 2
+        },
+        {
+          "text": "Parfois, mais ça reste supportable",
+          "points": 1
+        },
+        {
+          "text": "Non, jamais",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Âge",
+      "question": "Quel âge avez-vous ?",
+      "options": [
+        {
+          "text": "Moins de 45 ans",
+          "points": 0
+        },
+        {
+          "text": "Entre 45 et 50 ans",
+          "points": 1
+        },
+        {
+          "text": "Plus de 50 ans",
+          "points": 2
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Maladies chroniques",
+      "question": "Souffrez-vous d’une maladie chronique qui pourrait influencer vos symptômes (SOPK, endométriose, diabète, hypertension) ?",
+      "options": [
+        {
+          "text": "Oui",
+          "points": 2
+        },
+        {
+          "text": "Non, mais j’ai des antécédents",
+          "points": 1
+        },
+        {
+          "text": "Non",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Cycles menstruels",
+      "question": "Votre cycle menstruel joue-t-il à cache-cache avec vous ces derniers mois ?",
+      "options": [
+        {
+          "text": "Oui, complètement",
+          "points": 2
+        },
+        {
+          "text": "Un peu, mais il reste à peu près régulier",
+          "points": 1
+        },
+        {
+          "text": "Non, tout est encore normal",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Troubles de l’humeur",
+      "question": "Avez-vous parfois l’impression de passer du rire aux larmes en moins de temps qu’il n’en faut pour le dire ?",
+      "options": [
+        {
+          "text": "Oui, et ça m’épuise",
+          "points": 2
+        },
+        {
+          "text": "Ça m’arrive, mais pas tout le temps",
+          "points": 1
+        },
+        {
+          "text": "Non, mon humeur est stable",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Nouveaux symptômes",
+      "question": "Avez-vous remarqué l’apparition récente de certains de ces symptômes ?",
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Sécheresse intime",
+          "points": 1
+        },
+        {
+          "text": "Douleurs articulaires",
+          "points": 1
+        },
+        {
+          "text": "Pertes de concentration",
+          "points": 1
+        },
+        {
+          "text": "Fatigue persistante",
+          "points": 1
+        },
+        {
+          "text": "Aucun de ces symptômes",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Gestion des symptômes actuels",
+      "question": "Avez-vous déjà adopté des solutions pour gérer vos symptômes ?",
+      "options": [
+        {
+          "text": "Oui, des solutions médicales ou hormonales",
+          "points": 0
+        },
+        {
+          "text": "Oui, des solutions naturelles ou des habitudes de vie",
+          "points": 1
+        },
+        {
+          "text": "Non, je ne fais rien pour le moment",
+          "points": 2
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Prise de poids et alimentation",
+      "question": "Avez-vous constaté une prise de poids, notamment au niveau du ventre, ces derniers temps ?",
+      "options": [
+        {
+          "text": "Oui, et je trouve cela difficile à gérer",
+          "points": 2
+        },
+        {
+          "text": "Un peu, mais je ne m’en inquiète pas trop",
+          "points": 1
+        },
+        {
+          "text": "Non, pas de changements notables",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Activité physique",
+      "question": "Quelle est votre relation avec le sport ou l’activité physique ?",
+      "options": [
+        {
+          "text": "J’en fais régulièrement, et ça me fait du bien",
+          "points": 0
+        },
+        {
+          "text": "J’essaie d’être active, mais c’est irrégulier",
+          "points": 1
+        },
+        {
+          "text": "Je suis plutôt sédentaire",
+          "points": 2
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Troubles du sommeil",
+      "question": "Votre sommeil est-il perturbé dernièrement (insomnies, réveils fréquents) ?",
+      "options": [
+        {
+          "text": "Oui, et c’est très difficile à gérer",
+          "points": 2
+        },
+        {
+          "text": "Parfois, mais rien de constant",
+          "points": 1
+        },
+        {
+          "text": "Non, je dors bien",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "État émotionnel actuel",
+      "question": "Comment vous sentez-vous ces derniers temps sur le plan émotionnel ?",
+      "options": [
+        {
+          "text": "Dépassée ou anxieuse",
+          "points": 2
+        },
+        {
+          "text": "Plutôt stable, avec des hauts et des bas",
+          "points": 1
+        },
+        {
+          "text": "Énergique et positive",
+          "points": 0
+        }
+      ]
+    }
+  ],
+  "diagnostics": [
+    {
+      "id": 1,
+      "scenario": "Symptômes intenses",
+      "conditions": {
+        "total_score": "13+",
+        "symptoms": ["Bouffées de chaleur", "Douleurs articulaires", "Sécheresse intime"]
+      },
+      "message": "Vos réponses montrent plusieurs signes de la ménopause, ce qui peut être déroutant. Bonne nouvelle : des solutions existent pour vous aider à gérer ça efficacement. Commencez par :\n1. Soulager vos symptômes immédiats avec le Kit Ménopause.\n2. Planifier des ajustements sur le long terme avec des conseils personnalisés dans notre Bootcamp.",
+      "buttons": [
+        {
+          "text": "Découvrir le Kit",
+          "link": "https://www.votreblog.com/kit-menopause"
+        },
+        {
+          "text": "Découvrir le Bootcamp",
+          "link": "https://www.votreblog.com/bootcamp"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "scenario": "Symptômes modérés",
+      "conditions": {
+        "total_score": "6-12",
+        "symptoms": ["Cycles irréguliers", "Humeur instable"]
+      },
+      "message": "On dirait que vos hormones commencent à jouer un peu avec vos nerfs. C’est le moment parfait pour anticiper et mettre en place une routine bien-être. Avec un bon équilibre, cette période peut même devenir plus douce.",
+      "buttons": [
+        {
+          "text": "Découvrir le Bootcamp",
+          "link": "https://www.votreblog.com/bootcamp"
+        },
+        {
+          "text": "Contacter un coach",
+          "link": "https://www.votreblog.com/contact-coach"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "scenario": "Peu de symptômes",
+      "conditions": {
+        "total_score": "0-5",
+        "symptoms": ["Pas de bouffées de chaleur", "Pas de sécheresse"]
+      },
+      "message": "Vos réponses indiquent peu de signes de ménopause pour l’instant, mais rester à l’écoute de votre corps est essentiel. Vous pourriez aimer découvrir des conseils pratiques dans notre programme.",
+      "buttons": [
+        {
+          "text": "Découvrir le Bootcamp",
+          "link": "https://www.votreblog.com/bootcamp"
+        },
+        {
+          "text": "Contacter un coach",
+          "link": "https://www.votreblog.com/contact-coach"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "scenario": "Symptômes spécifiques mais isolés",
+      "conditions": {
+        "symptoms": ["Sécheresse intime uniquement"]
+      },
+      "message": "La sécheresse intime peut être l’un des premiers signes de périménopause. Voici comment commencer :\n1. Utilisez un gel hydratant adapté pour le confort immédiat.\n2. Découvrez des astuces pour équilibrer vos hormones naturellement.",
+      "buttons": [
+        {
+          "text": "Découvrir le Kit",
+          "link": "https://www.votreblog.com/kit-menopause"
+        },
+        {
+          "text": "Découvrir le Bootcamp",
+          "link": "https://www.votreblog.com/bootcamp"
+        }
+      ]
+    }
+  ]
+}
