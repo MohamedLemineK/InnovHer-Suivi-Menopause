@@ -1,0 +1,61 @@
+graph TD
+  style Q1 fill:#00BFFF,stroke:#003B5C,stroke-width:2px
+  style Q2 fill:#00BFFF,stroke:#003B5C,stroke-width:2px
+  style Q3 fill:#00BFFF,stroke:#003B5C,stroke-width:2px
+  style Q4 fill:#00BFFF,stroke:#003B5C,stroke-width:2px
+  style Q5 fill:#00BFFF,stroke:#003B5C,stroke-width:2px
+  style Q6 fill:#00BFFF,stroke:#003B5C,stroke-width:2px
+  style S1 fill:#FFFFFF,stroke:#003B5C,stroke-width:2px
+  style S2 fill:#D3D3D3,stroke:#003B5C,stroke-width:2px
+  style S3 fill:#008080,stroke:#003B5C,stroke-width:2px
+  style S4 fill:#FF00FF,stroke:#003B5C,stroke-width:2px
+
+  %% Questions
+  Q1["Bonjour ! Vous avez des bouffees de chaleur qui vous reveillent la nuit ou transforment votre bureau en sauna ?"]
+  Q2["Niveau cycles menstruels, est-ce que vous avez remarque des changements recents ?"]
+  Q3["Cote humeur, vous arrive-t-il de vous sentir un peu en montagnes russes ?"]
+  Q4["Ressentez-vous parfois des douleurs articulaires, meme legeres ?"]
+  Q5["Avez-vous deja ressenti une gene liee a la secheresse intime ?"]
+  Q6["Ressentez-vous des bouffees de chaleur soudaines, meme en plein hiver ?"]
+
+  %% Scenarios
+  S1["Scenario 1 : Symptomes intenses (Bouffees de chaleur + Douleurs articulaires + Secheresse intime)<br> \n    Vos reponses montrent plusieurs signes de la menopause, ce qui peut etre deroutant. Bonne nouvelle : des solutions existent pour vous aider a gerer ca efficacement.<br> \n    * Soulager vos symptomes immediats avec le Kit Menopause.<br> \n    * Planifier des ajustements sur le long terme avec des conseils personnalises dans notre Bootcamp."]
+  S2["Scenario 2 : Symptomes moderes (Cycles irreguliers + Humeur instable)<br> \n    On dirait que vos hormones commencent a jouer un peu avec vos nerfs. C’est le moment parfait pour anticiper et mettre en place une routine bien-etre.<br> \n    * Decouvrir le Bootcamp.<br> \n    * Contacter un coach."]
+  S3["Scenario 3 : Peu de symptomes (Pas de bouffees de chaleur, pas de secheresse)<br> \n    Vos reponses indiquent peu de signes de menopause pour l’instant, mais rester a l’ecoute de votre corps est essentiel.<br> \n    * Decouvrir le Bootcamp.<br> \n    * Contacter un coach."]
+  S4["Scenario 4 : Symptomes spécifiques mais isolés (ex. : Secheresse intime uniquement)<br> \n    La secheresse intime peut etre l’un des premiers signes de perimenopause. Voici comment commencer :<br> \n    * Utiliser un gel hydratant adapte pour le confort immediat.<br> \n    * Decouvrir des astuces pour equilibrer vos hormones naturellement."]
+
+  %% Arcs
+  Q1 --> |"Oui, c’est insupportable"| Q2
+  Q1 --> |"Parfois, mais je gere"| Q2
+  Q1 --> |"Non, pas encore"| Q2
+  
+  Q2 --> |"Completement irreguliers, c’est le bazar"| Q3
+  Q2 --> |"Moins regulieres, mais rien d’alarmant"| Q3
+  Q2 --> |"Non, tout est encore normal"| Q3
+
+  Q3 --> |"Oui, je passe du rire aux larmes en 2 secondes"| Q4
+  Q3 --> |"Ca arrive, mais ca va"| Q4
+  Q3 --> |"Non, pas du tout"| Q4
+
+  Q4 --> |"Oui, souvent"| Q5
+  Q4 --> |"Parfois, mais ca passe vite"| Q5
+  Q4 --> |"Non, aucun souci"| Q5
+  
+  Q5 --> |"Oui, et ca m’inquiete"| Q6
+  Q5 --> |"Parfois, mais rien de grave"| Q6
+  Q5 --> |"Non, pas du tout"| Q6
+
+  Q6 --> |"Oui, et c’est tres genant"| S1
+  Q6 --> |"Parfois, mais ca reste gerable"| S1
+  Q6 --> |"Non, jamais"| S2
+
+  subgraph Diagnostics
+    S1
+    S2
+    S3
+    S4
+  end
+
+  Q1 --> S3
+  
+  Q4 --> S4
