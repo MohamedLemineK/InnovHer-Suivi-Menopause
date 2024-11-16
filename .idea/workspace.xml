@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ebf9ee6e-ec75-42a2-bbc6-08df89a48e5b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/untitled/src/app/components/Bilan.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/untitled/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/untitled/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/untitled/public/data/questionsData.json" beforeDir="false" afterPath="$PROJECT_DIR$/untitled/public/data/questionsData.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/untitled/src/app/bilan/page.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/untitled/src/app/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/untitled/src/app/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/untitled/src/app/scoring.js" beforeDir="false" afterPath="$PROJECT_DIR$/untitled/src/app/scoring.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +60,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/untitled/src/app/components" />
       <recent name="$PROJECT_DIR$/untitled/src/app" />
       <recent name="$PROJECT_DIR$/untitled/src/app/data" />
     </key>
@@ -94,5 +101,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
 </project>

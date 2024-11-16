@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import { Element, scroller } from "react-scroll";
-import questionnaire from "../../src/app/data/questionsData.json";
-import Link from "next/link"; // Import Link for navigation
+import questionnaire from "../../public/data/questionsData.json";
+import Link from "next/link";
+import Bilan from "../app/components/Bilan";
 
 export default function Chatbot() {
     const [userAnswers, setUserAnswers] = useState({});
     const [currentStep, setCurrentStep] = useState(0);
-    const [maxStepReached, setMaxStepReached] = useState(0);
+    const [isComplete, setIsComplete] = useState(false);
 
-    // Extract questions from JSON
     const steps = questionnaire.questions.map((q) => ({
         text: q.question,
         options: q.options.map((option) => ({
@@ -20,29 +20,22 @@ export default function Chatbot() {
     }));
 
     const handleAnswerChange = (stepIndex, value) => {
-        const isMultiple = steps[stepIndex].isMultiple;
-
         setUserAnswers((prevAnswers) => {
             const newAnswers = { ...prevAnswers };
-            if (isMultiple) {
-                // Handle multiple selections
+            if (steps[stepIndex].isMultiple) {
                 const existingAnswers = newAnswers[stepIndex] || [];
                 if (existingAnswers.includes(value)) {
-                    newAnswers[stepIndex] = existingAnswers.filter(
-                        (answer) => answer !== value
-                    );
+                    newAnswers[stepIndex] = existingAnswers.filter((answer) => answer !== value);
                 } else {
                     newAnswers[stepIndex] = [...existingAnswers, value];
                 }
             } else {
-                // Handle single selection
                 newAnswers[stepIndex] = value;
             }
             return newAnswers;
         });
 
-        // Automatically move to next step for single selection
-        if (!isMultiple && stepIndex === currentStep) {
+        if (!steps[stepIndex].isMultiple) {
             goToNextStep();
         }
     };
@@ -51,8 +44,6 @@ export default function Chatbot() {
         const nextStep = currentStep + 1;
         if (nextStep < steps.length) {
             setCurrentStep(nextStep);
-            setMaxStepReached((prevMax) => Math.max(prevMax, nextStep));
-
             scroller.scrollTo(`step-${nextStep}`, {
                 duration: 500,
                 delay: 0,
@@ -60,8 +51,7 @@ export default function Chatbot() {
                 offset: -80,
             });
         } else {
-            // End of questionnaire
-            setCurrentStep(-1);
+            setIsComplete(true);
         }
     };
 
@@ -69,7 +59,6 @@ export default function Chatbot() {
         const prevStep = currentStep - 1;
         if (prevStep >= 0) {
             setCurrentStep(prevStep);
-
             scroller.scrollTo(`step-${prevStep}`, {
                 duration: 500,
                 delay: 0,
@@ -80,19 +69,17 @@ export default function Chatbot() {
     };
 
     return (
-        <div className="min-h-screen bg-lightGray">
+        <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-200">
             {/* Header */}
-            <header className="fixed top-0 left-0 w-full bg-purpleAccent text-white z-50 shadow-md">
+            <header className="fixed top-0 left-0 w-full bg-purple-700 text-white z-50 shadow-lg">
                 <div className="flex justify-between items-center px-8 py-4">
-                    {/* Logo */}
                     <Link href="/">
                         <img
-                            src="/logo.png" // Ensure the logo file is placed in the public folder as "logo.jpg"
+                            src="/logo.png"
                             alt="Ventilo Care"
-                            className="w-32 h-auto object-cover rounded-full shadow-lg"
+                            className="w-32 h-auto object-cover rounded-full shadow-md"
                         />
                     </Link>
-                    {/* Navigation */}
                     <nav>
                         <ul className="flex space-x-6 font-semibold">
                             <li>
@@ -117,80 +104,46 @@ export default function Chatbot() {
                             </li>
                         </ul>
                     </nav>
-                    <button className="bg-white text-purpleAccent px-4 py-2 rounded-full hover:bg-gray-200 shadow-md">
+                    <button className="bg-white text-purple-700 px-4 py-2 rounded-full hover:bg-purple-100 shadow-md">
                         Besoin d'aide
                     </button>
                 </div>
             </header>
 
-            {/* Questions Content */}
-            {currentStep === -1 ? (
-                <div className="min-h-screen flex items-center justify-center">
-                    <h1 className="text-4xl font-bold">
-                        Merci pour votre participation
-                    </h1>
-                </div>
-            ) : (
-                <div className="flex flex-col items-center mt-32">
-                    {steps.map((stepData, index) => (
+            {/* Questions Section */}
+            {!isComplete ? (
+                <div className="flex flex-col items-center mt-28">
+                    {steps.map((step, index) => (
                         <Element
                             key={index}
                             name={`step-${index}`}
-                            className={`w-full min-h-screen flex flex-col items-center justify-center p-8 ${
+                            className={`w-full ${
                                 index !== currentStep ? "hidden" : ""
-                            }`}
+                            } min-h-screen flex flex-col items-center justify-center p-8`}
                         >
-                            <h1 className="text-4xl font-bold text-center mb-6">
-                                {stepData.text}
+                            <h1 className="text-3xl md:text-4xl font-bold text-purple-800 text-center mb-6">
+                                {step.text}
                             </h1>
                             <div className="flex flex-col space-y-4 w-3/4">
-                                {stepData.options.map((option, i) => {
-                                    const selectedAnswers = userAnswers[index];
-                                    const isSelected = stepData.isMultiple
-                                        ? (selectedAnswers || []).includes(option.text)
-                                        : selectedAnswers === option.text;
-
-                                    return (
-                                        <div
-                                            key={i}
-                                            className={`p-4 border border-gray-300 rounded-full cursor-pointer ${
-                                                isSelected
-                                                    ? "bg-purpleAccent text-white shadow-lg"
-                                                    : "hover:bg-gray-100"
-                                            }`}
-                                            onClick={() =>
-                                                handleAnswerChange(
-                                                    index,
-                                                    option.text
-                                                )
-                                            }
-                                        >
-                                            {/* Hidden Input */}
-                                            <input
-                                                type={
-                                                    stepData.isMultiple
-                                                        ? "checkbox"
-                                                        : "radio"
-                                                }
-                                                name={`step-${index}`}
-                                                value={option.text}
-                                                className="hidden"
-                                                checked={isSelected}
-                                                readOnly
-                                            />
-                                            <span className="text-lg">
-                                                {option.text}
-                                            </span>
-                                        </div>
-                                    );
-                                })}
+                                {step.options.map((option, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => handleAnswerChange(index, option.text)}
+                                        className={`p-4 border rounded-full transition-all duration-300 text-left ${
+                                            (userAnswers[index] || []).includes(option.text)
+                                                ? "bg-purple-700 text-white"
+                                                : "bg-white hover:bg-purple-100"
+                                        }`}
+                                    >
+                                        {option.text}
+                                    </button>
+                                ))}
                             </div>
-                            {/* Navigation Buttons */}
                             <div className="flex justify-between mt-6 w-3/4">
                                 {currentStep > 0 && (
                                     <button
                                         onClick={goToPreviousStep}
-                                        className="bg-gray-500 text-white px-4 py-2 rounded-md"
+                                        className="bg-gray-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-600 transition"
                                     >
                                         Précédent
                                     </button>
@@ -199,7 +152,7 @@ export default function Chatbot() {
                                 {currentStep < steps.length - 1 && (
                                     <button
                                         onClick={goToNextStep}
-                                        className="bg-purpleAccent text-white px-4 py-2 rounded-md"
+                                        className="bg-purple-700 text-white px-4 py-2 rounded-md shadow-md hover:bg-purple-800 transition"
                                     >
                                         Suivant
                                     </button>
@@ -208,32 +161,44 @@ export default function Chatbot() {
                         </Element>
                     ))}
                 </div>
+            ) : (
+                <Bilan userAnswers={userAnswers} />
             )}
 
             {/* Footer */}
-            <footer className="bg-gray-800 text-white text-center py-4 mt-10 rounded-t-lg">
+            <footer className="bg-purple-800 text-white text-center py-4 mt-10 rounded-t-lg">
                 <p className="text-sm">
-                    Ventilo, c'est un espace en ligne pour accompagner les femmes en périménopause avec une approche
+                    Ventilo Care : Un espace pour accompagner les femmes en périménopause avec une approche
                     pluridisciplinaire.
                 </p>
                 <div className="flex justify-center space-x-4 mt-2">
-                    <a href="mailto:floriane@ventilo.care" className="text-purpleAccent hover:underline">
+                    <a href="mailto:floriane@ventilo.care" className="hover:underline">
                         Contact
                     </a>
-                    <a href="https://www.instagram.com/ventilo.care" target="_blank" rel="noopener noreferrer" className="text-purpleAccent hover:underline">
+                    <a
+                        href="https://www.instagram.com/ventilo.care"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                    >
                         Instagram
                     </a>
-                    <a href="https://ventilo.substack.com/" target="_blank" rel="noopener noreferrer" className="text-purpleAccent hover:underline">
+                    <a
+                        href="https://ventilo.substack.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                    >
                         Newsletter
                     </a>
                 </div>
                 <div className="text-xs mt-2">
-                    <span>© 2024 Ventilo | </span>
-                    <Link href="/conditions-d-utilisation/" className="text-purpleAccent hover:underline">
+                    <span>© 2024 Ventilo Care | </span>
+                    <Link href="/conditions-d-utilisation" className="hover:underline">
                         Conditions d'utilisation
                     </Link>{" "}
                     |{" "}
-                    <Link href="/mentions-legales/" className="text-purpleAccent hover:underline">
+                    <Link href="/mentions-legales" className="hover:underline">
                         Mentions légales
                     </Link>
                 </div>

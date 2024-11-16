@@ -1,68 +1,76 @@
-async function loadData() {
+import questionnaire from "../../public/data/questionsData.json";
+
+export async function calculateResultsFromUserData(userAnswers) {
   try {
-    const response = await fetch('/data/questionsData.json'); // Chemin relatif au fichier JSON
-    if (!response.ok) {
-      throw new Error(`Erreur HTTP : ${response.status}`); // Vérification du statut HTTP
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Erreur lors du chargement des données JSON :", error.message);
-    return null;
-  }
-}
+    console.log("Données reçues pour le calcul :", userAnswers);
 
-async function poserQuestions(userResponses) {
-  const data = await loadData();
-  if (!data) {
-    throw new Error("Impossible de charger les données JSON.");
-  }
+    let scoreTotal = 0;
+    const symptomsDetected = [];
 
-  let scoreTotal = 0;
-  let symptomsDetected = [];
+    // Calcul du score total et détection des symptômes
+    Object.entries(userAnswers).forEach(([questionIndex, answer]) => {
+      const questionId = parseInt(questionIndex, 10) + 1;
+      const question = questionnaire.questions.find((q) => q.id === questionId);
 
-  userResponses.forEach((response, index) => {
-    const question = data.questions[index];
-    const selectedOption = question.options[response];
-
-    if (selectedOption) {
-      scoreTotal += selectedOption.points;
-
-      if (
-          selectedOption.text.includes('Sécheresse intime') ||
-          selectedOption.text.includes('Douleurs articulaires')
-      ) {
-        symptomsDetected.push(question.title);
+      if (question) {
+        if (Array.isArray(answer)) {
+          answer.forEach((ans) => {
+            const option = question.options.find(
+                (opt) => opt.text.trim().toLowerCase() === ans.trim().toLowerCase()
+            );
+            if (option) {
+              scoreTotal += option.points || 0;
+              symptomsDetected.push(option.text);
+            }
+          });
+        } else {
+          const option = question.options.find(
+              (opt) => opt.text.trim().toLowerCase() === answer.trim().toLowerCase()
+          );
+          if (option) {
+            scoreTotal += option.points || 0;
+            symptomsDetected.push(option.text);
+          }
+        }
       }
-    }
-  });
+    });
 
-  return { scoreTotal, symptomsDetected };
-}
+    console.log("Score calculé :", scoreTotal);
+    console.log("Symptômes détectés :", symptomsDetected);
 
-async function donnerDiagnostic(scoreTotal) {
-  const data = await loadData();
-  if (!data) {
-    throw new Error("Impossible de charger les données JSON.");
+    // Calcul du diagnostic
+    const diagnostic = calculateDiagnostic(scoreTotal, symptomsDetected);
+    console.log("Diagnostic :", diagnostic);
+
+    return {
+      scoreTotal,
+      symptomsDetected,
+      diagnostic,
+    };
+  } catch (error) {
+    console.error("Erreur dans calculateResultsFromUserData :", error);
+    throw error;
   }
-
-  let diagnostic = null;
-
-  data.diagnostics.forEach((d) => {
-    if (scoreTotal >= 13 && d.conditions.total_score === '13+') {
-      diagnostic = d;
-    } else if (scoreTotal >= 6 && scoreTotal <= 12 && d.conditions.total_score === '6-12') {
-      diagnostic = d;
-    } else if (scoreTotal <= 5 && d.conditions.total_score === '0-5') {
-      diagnostic = d;
-    }
-  });
-
-  return diagnostic;
 }
 
-export async function calculateResults(userResponses) {
-  const { scoreTotal, symptomsDetected } = await poserQuestions(userResponses);
-  const diagnostic = await donnerDiagnostic(scoreTotal);
+function calculateDiagnostic(scoreTotal, symptomsDetected) {
+  const diagnostic = questionnaire.diagnostics.find((diag) => {
+    const scoreConditionMet =
+        diag.conditions.total_score &&
+        ((diag.conditions.total_score === "13+" && scoreTotal >= 13) ||
+            (diag.conditions.total_score === "6-12" &&
+                scoreTotal >= 6 &&
+                scoreTotal <= 12) ||
+            (diag.conditions.total_score === "0-5" && scoreTotal <= 5));
 
-  return { scoreTotal, symptomsDetected, diagnostic };
+    return scoreConditionMet;
+  });
+
+  return (
+      diagnostic || {
+        bilan: "Aucun diagnostic correspondant.",
+        recommandations: [],
+        message_final: "N'hésitez pas à consulter un professionnel pour plus de conseils.",
+      }
+  );
 }
