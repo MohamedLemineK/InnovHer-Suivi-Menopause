@@ -11,7 +11,6 @@ export default function Chatbot() {
     ]);
     const [userTyping, setUserTyping] = useState(false);
     const [step, setStep] = useState(0);
-    const [finalDiagnosis, setFinalDiagnosis] = useState(null);
 
     const steps = [
         {
@@ -40,11 +39,11 @@ export default function Chatbot() {
         },
         {
             text: "Diagnostic : Peu de symptômes.",
-            options: [{ text: "Retour", nextStep: 0 }],
+            options: [{ text: "Fin", nextStep: -1 }],
         },
         {
             text: "Diagnostic : Peu de symptômes.",
-            options: [{ text: "Retour", nextStep: 1 }],
+            options: [{ text: "Fin", nextStep: -1 }],
         },
         {
             text: "Avez-vous des douleurs articulaires ?",
@@ -64,11 +63,11 @@ export default function Chatbot() {
         },
         {
             text: "Diagnostic : Symptômes intenses. Découvrez le Kit Ménopause.",
-            options: [{ text: "Retour", nextStep: 0 }],
+            options: [{ text: "Fin", nextStep: -1 }],
         },
         {
             text: "Diagnostic : Symptômes modérés.",
-            options: [{ text: "Retour", nextStep: 0 }],
+            options: [{ text: "Fin", nextStep: -1 }],
         },
     ];
 
@@ -83,15 +82,12 @@ export default function Chatbot() {
         setUserTyping(true);
         setTimeout(() => {
             if (nextStep !== undefined) {
-                if ([8, 6].includes(nextStep)) {  // Check if it's a final diagnosis step
-                    const diagnosisText = nextStep === 8 ? 
-                        "Diagnostic : Symptômes intenses. Découvrez le Kit Ménopause." : 
-                        "Diagnostic : Symptômes modérés.";
+                // Vérifiez si c'est un diagnostic final
+                if (nextStep === -1) {
                     setMessages((prevMessages) => [
                         ...prevMessages,
-                        { sender: "bot", text: diagnosisText },
+                        { sender: "bot", text: "Merci pour votre participation." },
                     ]);
-                    setFinalDiagnosis(diagnosisText);
                 } else {
                     setMessages((prevMessages) => [
                         ...prevMessages,
@@ -99,13 +95,7 @@ export default function Chatbot() {
                     ]);
                     setStep(nextStep);
                 }
-            } else {
-                setMessages((prevMessages) => [
-                    ...prevMessages,
-                    { sender: "bot", text: "Merci pour votre réponse !" },
-                ]);
             }
-
             setUserTyping(false);
         }, 2000);
     };
