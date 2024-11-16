@@ -6,10 +6,66 @@ export default function Chatbot() {
     const [messages, setMessages] = useState([
         {
             sender: "bot",
-            text: "Bonjour ! Vous avez des bouffées de chaleur qui vous réveillent la nuit ou transforment votre bureau en sauna ?",
+            text: "Bonjour ! Avez-vous des bouffées de chaleur ?",
         },
     ]);
     const [userTyping, setUserTyping] = useState(false);
+    const [step, setStep] = useState(0);
+
+    const steps = [
+        {
+            question: "Avez-vous des bouffées de chaleur ?",
+            options: [
+                { text: "Oui", nextStep: 1 },
+                { text: "Parfois", nextStep: 1 },
+                { text: "Non", nextStep: 4 },
+            ],
+        },
+        {
+            question: "Avez-vous des cycles menstruels irréguliers ?",
+            options: [
+                { text: "Oui, complètement irréguliers", nextStep: 2 },
+                { text: "Oui, moins réguliers", nextStep: 2 },
+                { text: "Normal", nextStep: 3 },
+            ],
+        },
+        {
+            question: "Comment est votre humeur ?",
+            options: [
+                { text: "Rire aux larmes", nextStep: 6 },
+                { text: "Ça arrive", nextStep: 6 },
+                { text: "Pas du tout", nextStep: 3 },
+            ],
+        },
+        {
+            question: "Diagnostic : Peu de symptômes.",
+            options: [{ text: "Retour", nextStep: 0 }],
+        },
+        {
+            question: "Diagnostic : Peu de symptômes.",
+            options: [{ text: "Retour", nextStep: 1 }],
+        },
+        {
+            question: "Avez-vous des douleurs articulaires ?",
+            options: [
+                { text: "Oui, souvent", nextStep: 7 },
+                { text: "Parfois", nextStep: 7 },
+                { text: "Non", nextStep: 3 },
+            ],
+        },
+        {
+            question: "Avez-vous de la sécheresse intime ?",
+            options: [
+                { text: "Oui, inquiétude", nextStep: 8 },
+                { text: "Parfois", nextStep: 8 },
+                { text: "Non", nextStep: 3 },
+            ],
+        },
+        {
+            question: "Diagnostic : Symptômes intenses. Découvrez le Kit Ménopause.",
+            options: [{ text: "Retour", nextStep: 0 }],
+        },
+    ];
 
     const handleResponse = (answer) => {
         setMessages((prevMessages) => [
@@ -17,16 +73,23 @@ export default function Chatbot() {
             { sender: "user", text: answer },
         ]);
 
-        // Simulate bot typing
+        const nextStep = steps[step].options.find(option => option.text === answer)?.nextStep;
+
         setUserTyping(true);
         setTimeout(() => {
-            setMessages((prevMessages) => [
-                ...prevMessages,
-                {
-                    sender: "bot",
-                    text: "Merci pour votre réponse ! Nous analysons vos informations pour mieux vous accompagner.",
-                },
-            ]);
+            if (nextStep !== undefined) {
+                setMessages((prevMessages) => [
+                    ...prevMessages,
+                    { sender: "bot", text: steps[nextStep].question },
+                ]);
+                setStep(nextStep);
+            } else {
+                setMessages((prevMessages) => [
+                    ...prevMessages,
+                    { sender: "bot", text: "Merci pour votre réponse !" },
+                ]);
+            }
+
             setUserTyping(false);
         }, 2000);
     };
@@ -76,24 +139,15 @@ export default function Chatbot() {
 
                 {/* Response Buttons */}
                 <div className="bg-gradient-to-r from-yellow-300 to-pink-400 p-4 flex flex-wrap gap-4 justify-center">
-                    <button
-                        onClick={() => handleResponse("Oui, c’est insupportable.")}
-                        className="bg-purple-600 text-white px-6 py-2 rounded-full shadow-lg hover:bg-purple-700 transition-all duration-300 text-sm font-medium"
-                    >
-                        Oui, c’est insupportable.
-                    </button>
-                    <button
-                        onClick={() => handleResponse("Parfois, mais je gère.")}
-                        className="bg-pink-500 text-white px-6 py-2 rounded-full shadow-lg hover:bg-pink-600 transition-all duration-300 text-sm font-medium"
-                    >
-                        Parfois, mais je gère.
-                    </button>
-                    <button
-                        onClick={() => handleResponse("Non, pas encore.")}
-                        className="bg-yellow-500 text-white px-6 py-2 rounded-full shadow-lg hover:bg-yellow-600 transition-all duration-300 text-sm font-medium"
-                    >
-                        Non, pas encore.
-                    </button>
+                    {steps[step].options.map((option, index) => (
+                        <button
+                            key={index}
+                            onClick={() => handleResponse(option.text)}
+                            className="bg-purple-600 text-white px-6 py-2 rounded-full shadow-lg hover:bg-purple-700 transition-all duration-300 text-sm font-medium"
+                        >
+                            {option.text}
+                        </button>
+                    ))}
                 </div>
             </div>
 
