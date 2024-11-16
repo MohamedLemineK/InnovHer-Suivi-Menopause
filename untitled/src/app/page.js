@@ -6,6 +6,7 @@ import { Element, scroller } from "react-scroll";
 export default function Questionnaire() {
     const questions = [
         {
+<<<<<<< HEAD
             question: "Comment vous sentez-vous aujourd'hui ?",
             options: ["Bien", "Fatigué", "Stressé"],
         },
@@ -28,6 +29,71 @@ export default function Questionnaire() {
         {
             question: "Comment gérez-vous le stress ?",
             options: ["Méditation", "Sortir marcher", "Discuter avec un ami"],
+=======
+            sender: "bot",
+            text: "Bonjour ! Avez-vous des bouffées de chaleur ?",
+        },
+    ]);
+    const [userTyping, setUserTyping] = useState(false);
+    const [step, setStep] = useState(0);
+
+    const steps = [
+        {
+            text: "Avez-vous des bouffées de chaleur ?",
+            options: [
+                { text: "Oui", nextStep: 1 },
+                { text: "Parfois", nextStep: 1 },
+                { text: "Non", nextStep: 4 },
+            ],
+        },
+        {
+            text: "Avez-vous des cycles menstruels irréguliers ?",
+            options: [
+                { text: "Oui, complètement irréguliers", nextStep: 2 },
+                { text: "Oui, moins réguliers", nextStep: 2 },
+                { text: "Normal", nextStep: 3 },
+            ],
+        },
+        {
+            text: "Comment est votre humeur ?",
+            options: [
+                { text: "Rire aux larmes", nextStep: 6 },
+                { text: "Ça arrive", nextStep: 6 },
+                { text: "Pas du tout", nextStep: 3 },
+            ],
+        },
+        {
+            text: "Diagnostic : Peu de symptômes.",
+            options: [{ text: "Fin", nextStep: -1 }],
+        },
+        {
+            text: "Diagnostic : Peu de symptômes.",
+            options: [{ text: "Fin", nextStep: -1 }],
+        },
+        {
+            text: "Avez-vous des douleurs articulaires ?",
+            options: [
+                { text: "Oui, souvent", nextStep: 7 },
+                { text: "Parfois", nextStep: 7 },
+                { text: "Non", nextStep: 3 },
+            ],
+        },
+        {
+            text: "Avez-vous de la sécheresse intime ?",
+            options: [
+                { text: "Oui, inquiétude", nextStep: 8 },
+                { text: "Parfois", nextStep: 8 },
+                { text: "Non", nextStep: 3 },
+            ],
+        },
+        {
+            text: "Diagnostic : Symptômes intenses. Découvrez le Kit Ménopause.",
+            options: [{ text: "Fin", nextStep: -1 }],
+        },
+        {
+            text: "Diagnostic : Symptômes modérés.",
+            options: [{ text: "Fin", nextStep: -1 }],
+>>>>>>> 84e1f62abf23bebbdf90df4f9d843975ec9a3bdc
         },
     ];
 
@@ -38,6 +104,7 @@ export default function Questionnaire() {
         newAnswers[index] = value;
         setAnswers(newAnswers);
 
+<<<<<<< HEAD
         // Passer automatiquement à la question suivante
         if (index < questions.length - 1) {
             scroller.scrollTo(`question-${index + 1}`, {
@@ -51,6 +118,27 @@ export default function Questionnaire() {
             alert("Merci d'avoir complété le questionnaire !");
             console.log("Réponses : ", newAnswers);
         }
+=======
+        setUserTyping(true);
+        setTimeout(() => {
+            if (nextStep !== undefined) {
+                // Vérifiez si c'est un diagnostic final
+                if (nextStep === -1) {
+                    setMessages((prevMessages) => [
+                        ...prevMessages,
+                        { sender: "bot", text: "Merci pour votre participation." },
+                    ]);
+                } else {
+                    setMessages((prevMessages) => [
+                        ...prevMessages,
+                        { sender: "bot", text: steps[nextStep].text },
+                    ]);
+                    setStep(nextStep);
+                }
+            }
+            setUserTyping(false);
+        }, 2000);
+>>>>>>> 84e1f62abf23bebbdf90df4f9d843975ec9a3bdc
     };
 
     return (
