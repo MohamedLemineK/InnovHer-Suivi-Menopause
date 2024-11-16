@@ -9,7 +9,6 @@ import {
     FaCalendarAlt,
     FaRunning,
     FaBoxOpen,
-    FaUserCircle,
 } from 'react-icons/fa';
 import ImageWithFallback from '../components/ImageWithFallback';
 
@@ -34,7 +33,7 @@ export default function PacksPage() {
         {
             title: 'Programme 360 sur 1 mois',
             description: 'Un programme complet sur 30 jours pour un bien-être optimal, incluant des exercices, des conseils nutritionnels et plus encore.',
-            image: 'calendar.png', // Chemin vers l'image que vous avez partagée
+            image: 'calendar.png',
             icons: [<FaCalendarAlt key="calendar" />, <FaRunning key="running" />],
             link: '/packs/programme-360',
             benefits: ['Plan complet sur 30 jours', 'Accès à une communauté privée', 'Mises à jour régulières'],
@@ -42,34 +41,47 @@ export default function PacksPage() {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-300 via-pink-300 to-yellow-200 p-6">
-            <h1 className="text-4xl font-bold text-center text-purple-700 mb-10">Découvrez Nos Packs Exclusifs</h1>
+        <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100 p-8">
+            <h1 className="text-5xl font-extrabold text-center text-purple-700 mb-12">
+                Découvrez Nos Packs Exclusifs
+            </h1>
 
-            <div className="flex flex-wrap justify-center gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {allPacks.map((pack, index) => (
-                    <div key={index} className="bg-white shadow-2xl rounded-lg max-w-sm overflow-hidden transform hover:scale-105 transition duration-300">
-                        <ImageWithFallback
-                            src={pack.image}
-                            alt={pack.title}
-                            className="image-icon" // Classe CSS pour ajuster la taille
-                            fallbackIcon={<FaBoxOpen className="text-gray-400 text-6xl" />}
-                        />
+                    <div
+                        key={index}
+                        className="bg-white shadow-lg rounded-3xl overflow-hidden transform hover:-translate-y-2 transition-transform duration-500"
+                    >
+                        <div className="relative bg-gradient-to-br from-purple-100 to-purple-50 p-6">
+                            <ImageWithFallback
+                                src={pack.image}
+                                alt={pack.title}
+                                className="h-32 w-32 mx-auto rounded-full shadow-lg"
+                                fallbackIcon={
+                                    <FaBoxOpen className="text-gray-300 text-6xl mx-auto" />
+                                }
+                            />
+                        </div>
                         <div className="p-6">
-                            <h2 className="text-2xl font-semibold text-purple-700 mb-4">{pack.title}</h2>
-                            <p className="text-gray-700 mb-4">{pack.description}</p>
-                            <ul className="list-disc list-inside text-gray-600 mb-6">
+                            <h2 className="text-2xl font-semibold text-purple-800 mb-4">
+                                {pack.title}
+                            </h2>
+                            <p className="text-gray-600 mb-6">{pack.description}</p>
+                            <ul className="list-disc list-inside text-gray-700 mb-6 space-y-2">
                                 {pack.benefits.map((benefit, idx) => (
                                     <li key={idx}>{benefit}</li>
                                 ))}
                             </ul>
-                            <div className="flex space-x-4 mb-6 text-purple-700 text-3xl">
+                            <div className="flex justify-center space-x-4 mb-6 text-purple-600 text-2xl">
                                 {pack.icons.map((IconComponent, idx) => (
-                                    <div key={idx}>{IconComponent}</div>
+                                    <div key={idx} className="hover:text-purple-800 transition-colors">
+                                        {IconComponent}
+                                    </div>
                                 ))}
                             </div>
                             <a
                                 href={pack.link}
-                                className="block text-center bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full shadow-lg hover:from-pink-600 hover:to-purple-700 transition-all duration-300"
+                                className="block text-center bg-gradient-to-r from-purple-500 to-purple-700 text-white px-6 py-3 rounded-lg shadow-lg hover:from-purple-600 hover:to-purple-800 transition-all duration-300"
                             >
                                 Je le veux !
                             </a>

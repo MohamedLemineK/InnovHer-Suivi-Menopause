@@ -2,78 +2,24 @@
 
 import { useState } from "react";
 import { Element, scroller } from "react-scroll";
-import Link from "next/link";
+import questionnaire from "../../src/app/data/questionsData.json";
+import Link from "next/link"; // Importer le JSON
 
 export default function Chatbot() {
-    const [messages, setMessages] = useState([
-        {
-            sender: "bot",
-            text: "Bonjour ! Avez-vous des bouffées de chaleur ?",
-        },
-    ]);
+    const [messages, setMessages] = useState([]);
     const [step, setStep] = useState(0);
 
-    const steps = [
-        {
-            text: "Avez-vous des bouffées de chaleur ?",
-            options: [
-                { text: "Oui", nextStep: 1 },
-                { text: "Parfois", nextStep: 1 },
-                { text: "Non", nextStep: 4 },
-            ],
-        },
-        {
-            text: "Avez-vous des cycles menstruels irréguliers ?",
-            options: [
-                { text: "Oui, complètement irréguliers", nextStep: 2 },
-                { text: "Oui, moins réguliers", nextStep: 2 },
-                { text: "Normal", nextStep: 3 },
-            ],
-        },
-        {
-            text: "Comment est votre humeur ?",
-            options: [
-                { text: "Rire aux larmes", nextStep: 6 },
-                { text: "Ça arrive", nextStep: 6 },
-                { text: "Pas du tout", nextStep: 3 },
-            ],
-        },
-        {
-            text: "Diagnostic : Peu de symptômes.",
-            options: [{ text: "Fin", nextStep: -1 }],
-        },
-        {
-            text: "Diagnostic : Peu de symptômes.",
-            options: [{ text: "Fin", nextStep: -1 }],
-        },
-        {
-            text: "Avez-vous des douleurs articulaires ?",
-            options: [
-                { text: "Oui, souvent", nextStep: 7 },
-                { text: "Parfois", nextStep: 7 },
-                { text: "Non", nextStep: 3 },
-            ],
-        },
-        {
-            text: "Avez-vous de la sécheresse intime ?",
-            options: [
-                { text: "Oui, inquiétude", nextStep: 8 },
-                { text: "Parfois", nextStep: 8 },
-                { text: "Non", nextStep: 3 },
-            ],
-        },
-        {
-            text: "Diagnostic : Symptômes intenses. Découvrez le Kit Ménopause.",
-            options: [{ text: "Fin", nextStep: -1 }],
-        },
-        {
-            text: "Diagnostic : Symptômes modérés.",
-            options: [{ text: "Fin", nextStep: -1 }],
-        },
-    ];
+    // Extraction des questions depuis le JSON
+    const steps = questionnaire.questions.map((q) => ({
+        text: q.question,
+        options: q.options.map((option) => ({
+            text: option.text,
+        })),
+        isMultiple: q.type === "multiple_choice" || false,
+    }));
 
-    const handleAnswerChange = (index, value) => {
-        const nextStep = steps[step].options.find(option => option.text === value)?.nextStep;
+    const handleAnswerChange = (value) => {
+        const nextStep = step + 1 < steps.length ? step + 1 : -1;
 
         setMessages((prevMessages) => [
             ...prevMessages,
@@ -144,10 +90,10 @@ export default function Chatbot() {
                                             ? "bg-purpleAccent text-white"
                                             : ""
                                     }`}
-                                    onClick={() => handleAnswerChange(index, option.text)}
+                                    onClick={() => handleAnswerChange(option.text)}
                                 >
                                     <input
-                                        type="radio"
+                                        type={stepData.isMultiple ? "checkbox" : "radio"}
                                         name={`step-${index}`}
                                         value={option.text}
                                         className="hidden"
@@ -162,41 +108,43 @@ export default function Chatbot() {
                         </div>
                     </Element>
                 ))}
+            </div>
 
+    {/* Footer */}
+
+    <footer className="bg-gray-800 text-white text-center py-4 mt-10">
+        <p className="text-sm">
+            Ventilo, c'est un espace en ligne pour accompagner les femmes en périménopause avec une approche
+            pluridisciplinaire.
+            <br />
+            Notre souhait : faire de votre ménopause un second printemps digne de ce nom.
+        </p>
+        <div className="flex justify-center space-x-4 mt-2">
+            <a href="mailto:floriane@ventilo.care" className="text-purpleAccent hover:underline">
+                Contact
+            </a>
+            <a href="https://www.instagram.com/ventilo.care" target="_blank" rel="noopener noreferrer"
+               className="text-purpleAccent hover:underline">
+                Instagram
+            </a>
+            <a href="https://ventilo.substack.com/" target="_blank" rel="noopener noreferrer"
+               className="text-purpleAccent hover:underline">
+                Newsletter
+            </a>
         </div>
+        <div className="text-xs mt-2">
+            <span>© 2024 Ventilo | </span>
+            <Link href="/conditions-d-utilisation/" className="text-purpleAccent hover:underline">
+                Conditions d'utilisation
+            </Link> |
+            <Link href="/mentions-legales/" className="text-purpleAccent hover:underline">
+                Mentions légales
+            </Link>
+        </div>
+    </footer>
+</div>
 
-        {/* Footer */}
-        <footer className="bg-gray-800 text-white text-center py-4 mt-10">
-            <p className="text-sm">
-                Ventilo, c'est un espace en ligne pour accompagner les femmes en périménopause avec une approche
-                pluridisciplinaire.
-                <br />
-                Notre souhait : faire de votre ménopause un second printemps digne de ce nom.
-            </p>
-            <div className="flex justify-center space-x-4 mt-2">
-                <a href="mailto:floriane@ventilo.care" className="text-purpleAccent hover:underline">
-                    Contact
-                </a>
-                <a href="https://www.instagram.com/ventilo.care" target="_blank" rel="noopener noreferrer"
-                   className="text-purpleAccent hover:underline">
-                    Instagram
-                </a>
-                <a href="https://ventilo.substack.com/" target="_blank" rel="noopener noreferrer"
-                   className="text-purpleAccent hover:underline">
-                    Newsletter
-                </a>
-            </div>
-            <div className="text-xs mt-2">
-                <span>© 2024 Ventilo | </span>
-                <Link href="/conditions-d-utilisation/" className="text-purpleAccent hover:underline">
-                    Conditions d'utilisation
-                </Link> |
-                <Link href="/mentions-legales/" className="text-purpleAccent hover:underline">
-                    Mentions légales
-                </Link>
-            </div>
-        </footer>
-    </div>
+);
 
-    );
+
 }
