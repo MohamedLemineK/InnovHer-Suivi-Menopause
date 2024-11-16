@@ -35,7 +35,7 @@ export default function Questionnaire() {
             </ul>
           </nav>
           <button className="bg-purpleAccent text-white px-4 py-2 rounded-md">
-            Faire un point
+            Faire un point !
           </button>
         </header>
 
