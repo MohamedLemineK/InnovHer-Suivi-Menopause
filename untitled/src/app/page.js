@@ -1,173 +1,113 @@
 "use client";
 
 import { useState } from "react";
+import { Element, scroller } from "react-scroll";
 
-export default function Chatbot() {
-    const [messages, setMessages] = useState([
+export default function Questionnaire() {
+    const questions = [
         {
-            sender: "bot",
-            text: "Bonjour ! Avez-vous des bouffées de chaleur ?",
-        },
-    ]);
-    const [userTyping, setUserTyping] = useState(false);
-    const [step, setStep] = useState(0);
-
-    const steps = [
-        {
-            question: "Avez-vous des bouffées de chaleur ?",
-            options: [
-                { text: "Oui", nextStep: 1 },
-                { text: "Parfois", nextStep: 1 },
-                { text: "Non", nextStep: 4 },
-            ],
+            question: "Comment vous sentez-vous aujourd'hui ?",
+            options: ["Bien", "Fatigué", "Stressé"],
         },
         {
-            question: "Avez-vous des cycles menstruels irréguliers ?",
-            options: [
-                { text: "Oui, complètement irréguliers", nextStep: 2 },
-                { text: "Oui, moins réguliers", nextStep: 2 },
-                { text: "Normal", nextStep: 3 },
-            ],
+            question: "Quelle est votre couleur préférée ?",
+            options: ["Bleu", "Rouge", "Vert"],
         },
         {
-            question: "Comment est votre humeur ?",
-            options: [
-                { text: "Rire aux larmes", nextStep: 6 },
-                { text: "Ça arrive", nextStep: 6 },
-                { text: "Pas du tout", nextStep: 3 },
-            ],
+            question: "Quelle est votre saison favorite ?",
+            options: ["Printemps", "Été", "Hiver"],
         },
         {
-            question: "Diagnostic : Peu de symptômes.",
-            options: [{ text: "Retour", nextStep: 0 }],
+            question: "Préférez-vous travailler seul ou en équipe ?",
+            options: ["Seul", "En équipe", "Peu importe"],
         },
         {
-            question: "Diagnostic : Peu de symptômes.",
-            options: [{ text: "Retour", nextStep: 1 }],
+            question: "Quelle est votre activité de détente préférée ?",
+            options: ["Lire", "Regarder un film", "Faire du sport"],
         },
         {
-            question: "Avez-vous des douleurs articulaires ?",
-            options: [
-                { text: "Oui, souvent", nextStep: 7 },
-                { text: "Parfois", nextStep: 7 },
-                { text: "Non", nextStep: 3 },
-            ],
-        },
-        {
-            question: "Avez-vous de la sécheresse intime ?",
-            options: [
-                { text: "Oui, inquiétude", nextStep: 8 },
-                { text: "Parfois", nextStep: 8 },
-                { text: "Non", nextStep: 3 },
-            ],
-        },
-        {
-            question: "Diagnostic : Symptômes intenses. Découvrez le Kit Ménopause.",
-            options: [{ text: "Retour", nextStep: 0 }],
+            question: "Comment gérez-vous le stress ?",
+            options: ["Méditation", "Sortir marcher", "Discuter avec un ami"],
         },
     ];
 
-    const handleResponse = (answer) => {
-        setMessages((prevMessages) => [
-            ...prevMessages,
-            { sender: "user", text: answer },
-        ]);
+    const [answers, setAnswers] = useState(Array(questions.length).fill(null));
 
-        const nextStep = steps[step].options.find(option => option.text === answer)?.nextStep;
+    const handleAnswerChange = (index, value) => {
+        const newAnswers = [...answers];
+        newAnswers[index] = value;
+        setAnswers(newAnswers);
 
-        setUserTyping(true);
-        setTimeout(() => {
-            if (nextStep !== undefined) {
-                setMessages((prevMessages) => [
-                    ...prevMessages,
-                    { sender: "bot", text: steps[nextStep].question },
-                ]);
-                setStep(nextStep);
-            } else {
-                setMessages((prevMessages) => [
-                    ...prevMessages,
-                    { sender: "bot", text: "Merci pour votre réponse !" },
-                ]);
-            }
-
-            setUserTyping(false);
-        }, 2000);
+        // Passer automatiquement à la question suivante
+        if (index < questions.length - 1) {
+            scroller.scrollTo(`question-${index + 1}`, {
+                duration: 500,
+                delay: 0,
+                smooth: "easeInOutQuart",
+                offset: -80, // Décalage pour compenser la hauteur de la barre de navigation
+            });
+        } else {
+            // Si c'est la dernière question
+            alert("Merci d'avoir complété le questionnaire !");
+            console.log("Réponses : ", newAnswers);
+        }
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-300 via-pink-300 to-yellow-200 p-6">
-            {/* Chatbot Container */}
-            <div className="bg-white shadow-2xl rounded-lg w-full max-w-3xl h-[80vh] flex flex-col overflow-hidden border-4 border-purple-400">
-                {/* Header */}
-                <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xl font-bold p-4 flex items-center justify-between shadow-md">
-                    <span>Ventilo Care - Chatbot</span>
-                    <img
-                        src="https://static.wixstatic.com/media/6bd675_3c1a203542d944b9a8b0e6a66f738f75~mv2.png/v1/crop/x_0,y_211,w_1035,h_634/fill/w_137,h_83,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Ventilo%20Care.png"
-                        alt="Ventilo Care"
-                        className="w-12 h-auto"
-                    />
+        <div className="min-h-screen bg-lightGray">
+            {/* Barre de navigation fixée */}
+            <header className="fixed top-0 left-0 w-full bg-purpleAccent text-white z-50 shadow-md">
+                <div className="flex justify-between items-center px-8 py-4">
+                    <nav>
+                        <ul className="flex space-x-4 font-semibold">
+                            <li>Accueil</li>
+                            <li>Besoin de réponse</li>
+                            <li>Vive vous !</li>
+                            <li>Blog</li>
+                            <li>À Propos</li>
+                        </ul>
+                    </nav>
+                    <button className="bg-white text-purpleAccent px-4 py-2 rounded-md">
+                        Faire un point
+                    </button>
                 </div>
+            </header>
 
-                {/* Chat Window */}
-                <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-white to-gray-100">
-                    {messages.map((msg, index) => (
-                        <div
-                            key={index}
-                            className={`flex ${
-                                msg.sender === "user" ? "justify-end" : "justify-start"
-                            }`}
-                        >
-                            <div
-                                className={`max-w-[75%] p-4 rounded-xl shadow-md ${
-                                    msg.sender === "user"
-                                        ? "bg-purple-500 text-white"
-                                        : "bg-gray-300 text-gray-800"
-                                }`}
-                            >
-                                {msg.text}
-                            </div>
-                        </div>
-                    ))}
-                    {userTyping && (
-                        <div className="flex justify-start">
-                            <div className="bg-gray-300 text-gray-800 max-w-[75%] p-4 rounded-xl shadow-md">
-                                Le bot écrit...
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* Response Buttons */}
-                <div className="bg-gradient-to-r from-yellow-300 to-pink-400 p-4 flex flex-wrap gap-4 justify-center">
-                    {steps[step].options.map((option, index) => (
-                        <button
-                            key={index}
-                            onClick={() => handleResponse(option.text)}
-                            className="bg-purple-600 text-white px-6 py-2 rounded-full shadow-lg hover:bg-purple-700 transition-all duration-300 text-sm font-medium"
-                        >
-                            {option.text}
-                        </button>
-                    ))}
-                </div>
-            </div>
-
-            {/* Footer */}
-            <footer className="mt-6 text-center">
-                <p className="text-gray-700 text-sm">
-                    Suivez-nous sur Instagram :{" "}
-                    <a
-                        href="https://www.instagram.com/ventilo.care/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-purple-700 hover:underline"
+            {/* Contenu des questions */}
+            <div className="flex flex-col items-center mt-20"> {/* Ajout d'un espace en haut */}
+                {questions.map((q, index) => (
+                    <Element
+                        key={index}
+                        name={`question-${index}`}
+                        className="w-full h-screen flex flex-col items-center justify-center bg-white shadow-lg p-8"
                     >
-                        @ventilo.care
-                    </a>
-                </p>
-                <p className="text-gray-500 text-xs mt-2">
-                    © 2024 Ventilo Care. Tous droits réservés.
-                </p>
-            </footer>
+                        <h1 className="text-4xl font-bold text-center mb-6">
+                            {q.question}
+                        </h1>
+                        <div className="flex flex-col space-y-4 w-3/4">
+                            {q.options.map((option, i) => (
+                                <label
+                                    key={i}
+                                    className={`flex items-center space-x-4 p-4 border border-gray-300 rounded-md ${
+                                        answers[index] === option ? "bg-purpleAccent text-white" : ""
+                                    }`}
+                                    onClick={() => handleAnswerChange(index, option)}
+                                >
+                                    <input
+                                        type="radio"
+                                        name={`question-${index}`}
+                                        value={option}
+                                        className="hidden"
+                                        checked={answers[index] === option}
+                                        onChange={() => {}}
+                                    />
+                                    <span className="text-lg">{option}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </Element>
+                ))}
+            </div>
         </div>
     );
 }
