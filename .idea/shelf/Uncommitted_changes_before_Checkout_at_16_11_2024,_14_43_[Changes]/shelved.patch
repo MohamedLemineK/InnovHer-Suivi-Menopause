@@ -1,0 +1,245 @@
+Index: untitled/src/app/page.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use client\";\n\nimport { useState } from \"react\";\n\nexport default function Chatbot() {\n    const [messages, setMessages] = useState([\n        {\n            sender: \"bot\",\n            text: \"Bonjour ! Avez-vous des bouffées de chaleur ?\",\n        },\n    ]);\n    const [userTyping, setUserTyping] = useState(false);\n    const [step, setStep] = useState(0);\n\n    const steps = [\n        {\n            text: \"Avez-vous des bouffées de chaleur ?\",\n            options: [\n                { text: \"Oui\", nextStep: 1 },\n                { text: \"Parfois\", nextStep: 1 },\n                { text: \"Non\", nextStep: 4 },\n            ],\n        },\n        {\n            text: \"Avez-vous des cycles menstruels irréguliers ?\",\n            options: [\n                { text: \"Oui, complètement irréguliers\", nextStep: 2 },\n                { text: \"Oui, moins réguliers\", nextStep: 2 },\n                { text: \"Normal\", nextStep: 3 },\n            ],\n        },\n        {\n            text: \"Comment est votre humeur ?\",\n            options: [\n                { text: \"Rire aux larmes\", nextStep: 6 },\n                { text: \"Ça arrive\", nextStep: 6 },\n                { text: \"Pas du tout\", nextStep: 3 },\n            ],\n        },\n        {\n            text: \"Diagnostic : Peu de symptômes.\",\n            options: [{ text: \"Fin\", nextStep: -1 }],\n        },\n        {\n            text: \"Diagnostic : Symptômes modérés.\",\n            options: [{ text: \"Fin\", nextStep: -1 }],\n        },\n        {\n            text: \"Avez-vous des douleurs articulaires ?\",\n            options: [\n                { text: \"Oui, souvent\", nextStep: 7 },\n                { text: \"Parfois\", nextStep: 7 },\n                { text: \"Non\", nextStep: 3 },\n            ],\n        },\n        {\n            text: \"Avez-vous de la sécheresse intime ?\",\n            options: [\n                { text: \"Oui, inquiétude\", nextStep: 8 },\n                { text: \"Parfois\", nextStep: 8 },\n                { text: \"Non\", nextStep: 3 },\n            ],\n        },\n        {\n            text: \"Diagnostic : Symptômes intenses. Découvrez le Kit Ménopause.\",\n            options: [{ text: \"Fin\", nextStep: -1 }],\n        },\n    ];\n\n    const handleResponse = (answer) => {\n        setMessages((prevMessages) => [\n            ...prevMessages,\n            { sender: \"user\", text: answer },\n        ]);\n\n        const nextStep = steps[step].options.find(\n            (option) => option.text === answer\n        )?.nextStep;\n\n        setUserTyping(true);\n        setTimeout(() => {\n            if (nextStep !== undefined) {\n                if (nextStep === -1) {\n                    setMessages((prevMessages) => [\n                        ...prevMessages,\n                        { sender: \"bot\", text: \"Merci pour votre participation.\" },\n                    ]);\n                } else {\n                    setMessages((prevMessages) => [\n                        ...prevMessages,\n                        { sender: \"bot\", text: steps[nextStep].text },\n                    ]);\n                    setStep(nextStep);\n                }\n            }\n            setUserTyping(false);\n        }, 1500);\n    };\n\n    return (\n        <div className=\"flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-100 to-purple-300 p-6\">\n            {/* Chatbot Container */}\n            <div className=\"bg-white shadow-lg rounded-3xl w-full max-w-3xl h-[80vh] flex flex-col overflow-hidden border-4 border-purple-200\">\n                {/* Header */}\n                <div className=\"bg-gradient-to-r from-purple-400 to-purple-600 text-white text-xl font-bold p-4 flex items-center justify-between rounded-t-3xl shadow-md\">\n                    <span>Chatbot - Bien-être</span>\n                </div>\n\n                {/* Chat Window */}\n                <div className=\"flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-white to-gray-50\">\n                    {messages.map((msg, index) => (\n                        <div\n                            key={index}\n                            className={`flex ${\n                                msg.sender === \"user\" ? \"justify-end\" : \"justify-start\"\n                            }`}\n                        >\n                            <div\n                                className={`max-w-[75%] p-4 rounded-xl shadow-md ${\n                                    msg.sender === \"user\"\n                                        ? \"bg-purple-400 text-white\"\n                                        : \"bg-purple-100 text-purple-800\"\n                                }`}\n                            >\n                                {msg.text}\n                            </div>\n                        </div>\n                    ))}\n                    {userTyping && (\n                        <div className=\"flex justify-start\">\n                            <div className=\"bg-purple-100 text-purple-800 max-w-[75%] p-4 rounded-xl shadow-md\">\n                                Le bot écrit...\n                            </div>\n                        </div>\n                    )}\n                </div>\n\n                {/* Response Buttons */}\n                <div className=\"bg-purple-50 p-4 flex flex-wrap gap-4 justify-center\">\n                    {steps[step].options.map((option, index) => (\n                        <button\n                            key={index}\n                            onClick={() => handleResponse(option.text)}\n                            className=\"bg-purple-300 text-purple-900 px-6 py-2 rounded-full shadow-lg hover:bg-purple-400 transition-all duration-300 text-sm font-medium\"\n                        >\n                            {option.text}\n                        </button>\n                    ))}\n                </div>\n            </div>\n\n            {/* Footer */}\n            <footer className=\"mt-6 text-center text-sm text-purple-700\">\n                <p>© 2024 Chatbot Bien-être. Tous droits réservés.</p>\n            </footer>\n        </div>\n    );\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/untitled/src/app/page.js b/untitled/src/app/page.js
+--- a/untitled/src/app/page.js	(revision 594656470d19c34ad3c176a9b414e8794489b967)
++++ b/untitled/src/app/page.js	(date 1731764378088)
+@@ -1,85 +1,32 @@
+ "use client";
+ 
+ import { useState } from "react";
++import { Element, scroller } from "react-scroll";
++import questionnaire from "./data/questionnaire-gentil.json"; // Importer le JSON
+ 
+ export default function Chatbot() {
+-    const [messages, setMessages] = useState([
+-        {
+-            sender: "bot",
+-            text: "Bonjour ! Avez-vous des bouffées de chaleur ?",
+-        },
+-    ]);
+-    const [userTyping, setUserTyping] = useState(false);
++    const [messages, setMessages] = useState([]);
+     const [step, setStep] = useState(0);
+ 
+-    const steps = [
+-        {
+-            text: "Avez-vous des bouffées de chaleur ?",
+-            options: [
+-                { text: "Oui", nextStep: 1 },
+-                { text: "Parfois", nextStep: 1 },
+-                { text: "Non", nextStep: 4 },
+-            ],
+-        },
+-        {
+-            text: "Avez-vous des cycles menstruels irréguliers ?",
+-            options: [
+-                { text: "Oui, complètement irréguliers", nextStep: 2 },
+-                { text: "Oui, moins réguliers", nextStep: 2 },
+-                { text: "Normal", nextStep: 3 },
+-            ],
+-        },
+-        {
+-            text: "Comment est votre humeur ?",
+-            options: [
+-                { text: "Rire aux larmes", nextStep: 6 },
+-                { text: "Ça arrive", nextStep: 6 },
+-                { text: "Pas du tout", nextStep: 3 },
+-            ],
+-        },
+-        {
+-            text: "Diagnostic : Peu de symptômes.",
+-            options: [{ text: "Fin", nextStep: -1 }],
+-        },
+-        {
+-            text: "Diagnostic : Symptômes modérés.",
+-            options: [{ text: "Fin", nextStep: -1 }],
+-        },
+-        {
+-            text: "Avez-vous des douleurs articulaires ?",
+-            options: [
+-                { text: "Oui, souvent", nextStep: 7 },
+-                { text: "Parfois", nextStep: 7 },
+-                { text: "Non", nextStep: 3 },
+-            ],
+-        },
+-        {
+-            text: "Avez-vous de la sécheresse intime ?",
+-            options: [
+-                { text: "Oui, inquiétude", nextStep: 8 },
+-                { text: "Parfois", nextStep: 8 },
+-                { text: "Non", nextStep: 3 },
+-            ],
+-        },
+-        {
+-            text: "Diagnostic : Symptômes intenses. Découvrez le Kit Ménopause.",
+-            options: [{ text: "Fin", nextStep: -1 }],
+-        },
+-    ];
++    // Extraction des questions depuis le JSON
++    const steps = questionnaire.questions.map((q) => ({
++        text: q.question,
++        options: q.options.map((option) => ({
++            text: option.text,
++        })),
++        isMultiple: q.type === "multiple_choice" || false,
++    }));
+ 
+-    const handleResponse = (answer) => {
++    const handleAnswerChange = (value) => {
++        const nextStep = step + 1 < steps.length ? step + 1 : -1;
++
+         setMessages((prevMessages) => [
+             ...prevMessages,
+-            { sender: "user", text: answer },
++            { sender: "user", text: value },
+         ]);
+ 
+-        const nextStep = steps[step].options.find(
+-            (option) => option.text === answer
+-        )?.nextStep;
+-
+-        setUserTyping(true);
+-        setTimeout(() => {
+-            if (nextStep !== undefined) {
++        if (nextStep !== undefined) {
++            setTimeout(() => {
+                 if (nextStep === -1) {
+                     setMessages((prevMessages) => [
+                         ...prevMessages,
+@@ -91,68 +38,76 @@
+                         { sender: "bot", text: steps[nextStep].text },
+                     ]);
+                     setStep(nextStep);
++
++                    // Défilement vers la prochaine question
++                    scroller.scrollTo(`step-${nextStep}`, {
++                        duration: 500,
++                        delay: 0,
++                        smooth: "easeInOutQuart",
++                        offset: -80,
++                    });
+                 }
+-            }
+-            setUserTyping(false);
+-        }, 1500);
++            }, 500);
++        }
+     };
+ 
+     return (
+-        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-100 to-purple-300 p-6">
+-            {/* Chatbot Container */}
+-            <div className="bg-white shadow-lg rounded-3xl w-full max-w-3xl h-[80vh] flex flex-col overflow-hidden border-4 border-purple-200">
+-                {/* Header */}
+-                <div className="bg-gradient-to-r from-purple-400 to-purple-600 text-white text-xl font-bold p-4 flex items-center justify-between rounded-t-3xl shadow-md">
+-                    <span>Chatbot - Bien-être</span>
++        <div className="min-h-screen bg-lightGray">
++            {/* Barre de navigation */}
++            <header className="fixed top-0 left-0 w-full bg-purpleAccent text-white z-50 shadow-md">
++                <div className="flex justify-between items-center px-8 py-4">
++                    <nav>
++                        <ul className="flex space-x-4 font-semibold">
++                            <li>Accueil</li>
++                            <li>Diagnostic</li>
++                            <li>À Propos</li>
++                        </ul>
++                    </nav>
++                    <button className="bg-white text-purpleAccent px-4 py-2 rounded-md">
++                        Besoin d'aide
++                    </button>
+                 </div>
+-
+-                {/* Chat Window */}
+-                <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-white to-gray-50">
+-                    {messages.map((msg, index) => (
+-                        <div
+-                            key={index}
+-                            className={`flex ${
+-                                msg.sender === "user" ? "justify-end" : "justify-start"
+-                            }`}
+-                        >
+-                            <div
+-                                className={`max-w-[75%] p-4 rounded-xl shadow-md ${
+-                                    msg.sender === "user"
+-                                        ? "bg-purple-400 text-white"
+-                                        : "bg-purple-100 text-purple-800"
+-                                }`}
+-                            >
+-                                {msg.text}
+-                            </div>
+-                        </div>
+-                    ))}
+-                    {userTyping && (
+-                        <div className="flex justify-start">
+-                            <div className="bg-purple-100 text-purple-800 max-w-[75%] p-4 rounded-xl shadow-md">
+-                                Le bot écrit...
+-                            </div>
+-                        </div>
+-                    )}
+-                </div>
++            </header>
+ 
+-                {/* Response Buttons */}
+-                <div className="bg-purple-50 p-4 flex flex-wrap gap-4 justify-center">
+-                    {steps[step].options.map((option, index) => (
+-                        <button
+-                            key={index}
+-                            onClick={() => handleResponse(option.text)}
+-                            className="bg-purple-300 text-purple-900 px-6 py-2 rounded-full shadow-lg hover:bg-purple-400 transition-all duration-300 text-sm font-medium"
+-                        >
+-                            {option.text}
+-                        </button>
+-                    ))}
+-                </div>
++            {/* Contenu des questions */}
++            <div className="flex flex-col items-center mt-20">
++                {steps.map((stepData, index) => (
++                    <Element
++                        key={index}
++                        name={`step-${index}`}
++                        className="w-full h-screen flex flex-col items-center justify-center bg-white shadow-lg p-8"
++                    >
++                        <h1 className="text-4xl font-bold text-center mb-6">
++                            {stepData.text}
++                        </h1>
++                        <div className="flex flex-col space-y-4 w-3/4">
++                            {stepData.options.map((option, i) => (
++                                <label
++                                    key={i}
++                                    className={`flex items-center space-x-4 p-4 border border-gray-300 rounded-md ${
++                                        messages.find((m) => m.text === option.text)
++                                            ? "bg-purpleAccent text-white"
++                                            : ""
++                                    }`}
++                                    onClick={() => handleAnswerChange(option.text)}
++                                >
++                                    <input
++                                        type={stepData.isMultiple ? "checkbox" : "radio"}
++                                        name={`step-${index}`}
++                                        value={option.text}
++                                        className="hidden"
++                                        checked={messages.some(
++                                            (m) => m.sender === "user" && m.text === option.text
++                                        )}
++                                        onChange={() => {}}
++                                    />
++                                    <span className="text-lg">{option.text}</span>
++                                </label>
++                            ))}
++                        </div>
++                    </Element>
++                ))}
+             </div>
+-
+-            {/* Footer */}
+-            <footer className="mt-6 text-center text-sm text-purple-700">
+-                <p>© 2024 Chatbot Bien-être. Tous droits réservés.</p>
+-            </footer>
+         </div>
+     );
+ }
