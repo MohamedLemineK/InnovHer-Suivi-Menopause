@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Element, scroller } from "react-scroll";
+import Link from "next/link";
 
 export default function Chatbot() {
     const [messages, setMessages] = useState([
@@ -153,7 +154,8 @@ export default function Chatbot() {
                                         checked={messages.some(
                                             (m) => m.sender === "user" && m.text === option.text
                                         )}
-                                        onChange={() => {}}
+                                        onChange={() => {
+                                        }}
                                     />
                                     <span className="text-lg">{option.text}</span>
                                 </label>
@@ -166,25 +168,36 @@ export default function Chatbot() {
             {/* Footer */}
             <footer className="bg-gray-800 text-white text-center py-4 mt-10">
                 <p className="text-sm">
-                    Ventilo, c'est un espace en ligne pour accompagner les femmes en périménopause avec une approche pluridisciplinaire.
-                    <br />
+                    Ventilo, c'est un espace en ligne pour accompagner les femmes en périménopause avec une approche
+                    pluridisciplinaire.
+                    <br/>
                     Notre souhait : faire de votre ménopause un second printemps digne de ce nom.
                 </p>
                 <div className="flex justify-center space-x-4 mt-2">
                     <a href="mailto:floriane@ventilo.care" className="text-purpleAccent hover:underline">
                         Contact
                     </a>
-                    <a href="https://www.instagram.com/ventilo.care" target="_blank" rel="noopener noreferrer" className="text-purpleAccent hover:underline">
+                    <a href="https://www.instagram.com/ventilo.care" target="_blank" rel="noopener noreferrer"
+                       className="text-purpleAccent hover:underline">
                         Instagram
                     </a>
-                    <a href="https://ventilo.substack.com/" target="_blank" rel="noopener noreferrer" className="text-purpleAccent hover:underline">
+                    <a href="https://ventilo.substack.com/" target="_blank" rel="noopener noreferrer"
+                       className="text-purpleAccent hover:underline">
                         Newsletter
                     </a>
                 </div>
-                <p className="text-xs mt-2">
-                    &copy; 2024 Ventilo | <a href="/conditions-d-utilisation" className="text-purpleAccent hover:underline">Conditions d'utilisation</a> | <a href="/mentions-légales" className="text-purpleAccent hover:underline">Mentions légales</a>
-                </p>
+                <div className="text-xs mt-2">
+                    <span>© 2024 Ventilo | </span>
+                    <Link href="/conditions-d-utilisation" className="text-purpleAccent hover:underline">
+                        Conditions d'utilisation
+                    </Link> |
+                    <Link href="/mentions-legales" className="text-purpleAccent hover:underline">
+                        Mentions légales
+                    </Link>
+                </div>
             </footer>
+
+
         </div>
     );
 }
