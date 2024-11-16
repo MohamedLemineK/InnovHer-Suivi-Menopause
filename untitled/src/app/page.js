@@ -15,17 +15,32 @@ export default function Chatbot() {
         options: q.options.map((option) => ({
             text: option.text,
         })),
-        isMultiple: q.type === "multiple_choice" || false,
+        isMultiple: q.type === "multiple_choice",
     }));
 
     const handleAnswerChange = (value) => {
         const nextStep = step + 1 < steps.length ? step + 1 : -1;
+        
+        // Gérer les réponses multiples
+        if (steps[step].isMultiple) {
+            const currentAnswers = messages.filter(m => m.sender === "user").map(m => m.text);
+            // Ajouter ou retirer la réponse
+            if (currentAnswers.includes(value)) {
+                setMessages(prevMessages => prevMessages.filter(m => m.text !== value));
+            } else {
+                setMessages(prevMessages => [
+                    ...prevMessages,
+                    { sender: "user", text: value },
+                ]);
+            }
+        } else {
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                { sender: "user", text: value },
+            ]);
+        }
 
-        setMessages((prevMessages) => [
-            ...prevMessages,
-            { sender: "user", text: value },
-        ]);
-
+        // Passage à la question suivante après un délai
         if (nextStep !== undefined) {
             setTimeout(() => {
                 if (nextStep === -1) {
@@ -86,7 +101,7 @@ export default function Chatbot() {
                                 <label
                                     key={i}
                                     className={`flex items-center space-x-4 p-4 border border-gray-300 rounded-md ${
-                                        messages.find((m) => m.text === option.text)
+                                        messages.some((m) => m.sender === "user" && m.text === option.text)
                                             ? "bg-purpleAccent text-white"
                                             : ""
                                     }`}
@@ -110,41 +125,37 @@ export default function Chatbot() {
                 ))}
             </div>
 
-    {/* Footer */}
-
-    <footer className="bg-gray-800 text-white text-center py-4 mt-10">
-        <p className="text-sm">
-            Ventilo, c'est un espace en ligne pour accompagner les femmes en périménopause avec une approche
-            pluridisciplinaire.
-            <br />
-            Notre souhait : faire de votre ménopause un second printemps digne de ce nom.
-        </p>
-        <div className="flex justify-center space-x-4 mt-2">
-            <a href="mailto:floriane@ventilo.care" className="text-purpleAccent hover:underline">
-                Contact
-            </a>
-            <a href="https://www.instagram.com/ventilo.care" target="_blank" rel="noopener noreferrer"
-               className="text-purpleAccent hover:underline">
-                Instagram
-            </a>
-            <a href="https://ventilo.substack.com/" target="_blank" rel="noopener noreferrer"
-               className="text-purpleAccent hover:underline">
-                Newsletter
-            </a>
+            {/* Footer */}
+            <footer className="bg-gray-800 text-white text-center py-4 mt-10">
+                <p className="text-sm">
+                    Ventilo, c'est un espace en ligne pour accompagner les femmes en périménopause avec une approche
+                    pluridisciplinaire.
+                    <br />
+                    Notre souhait : faire de votre ménopause un second printemps digne de ce nom.
+                </p>
+                <div className="flex justify-center space-x-4 mt-2">
+                    <a href="mailto:floriane@ventilo.care" className="text-purpleAccent hover:underline">
+                        Contact
+                    </a>
+                    <a href="https://www.instagram.com/ventilo.care" target="_blank" rel="noopener noreferrer"
+                       className="text-purpleAccent hover:underline">
+                        Instagram
+                    </a>
+                    <a href="https://ventilo.substack.com/" target="_blank" rel="noopener noreferrer"
+                       className="text-purpleAccent hover:underline">
+                        Newsletter
+                    </a>
+                </div>
+                <div className="text-xs mt-2">
+                    <span>© 2024 Ventilo | </span>
+                    <Link href="/conditions-d-utilisation/" className="text-purpleAccent hover:underline">
+                        Conditions d'utilisation
+                    </Link> |
+                    <Link href="/mentions-legales/" className="text-purpleAccent hover:underline">
+                        Mentions légales
+                    </Link>
+                </div>
+            </footer>
         </div>
-        <div className="text-xs mt-2">
-            <span>© 2024 Ventilo | </span>
-            <Link href="/conditions-d-utilisation/" className="text-purpleAccent hover:underline">
-                Conditions d'utilisation
-            </Link> |
-            <Link href="/mentions-legales/" className="text-purpleAccent hover:underline">
-                Mentions légales
-            </Link>
-        </div>
-    </footer>
-</div>
-
-);
-
-
+    );
 }
