@@ -11,10 +11,11 @@ export default function Chatbot() {
     ]);
     const [userTyping, setUserTyping] = useState(false);
     const [step, setStep] = useState(0);
+    const [finalDiagnosis, setFinalDiagnosis] = useState(null);
 
     const steps = [
         {
-            question: "Avez-vous des bouffées de chaleur ?",
+            text: "Avez-vous des bouffées de chaleur ?",
             options: [
                 { text: "Oui", nextStep: 1 },
                 { text: "Parfois", nextStep: 1 },
@@ -22,7 +23,7 @@ export default function Chatbot() {
             ],
         },
         {
-            question: "Avez-vous des cycles menstruels irréguliers ?",
+            text: "Avez-vous des cycles menstruels irréguliers ?",
             options: [
                 { text: "Oui, complètement irréguliers", nextStep: 2 },
                 { text: "Oui, moins réguliers", nextStep: 2 },
@@ -30,7 +31,7 @@ export default function Chatbot() {
             ],
         },
         {
-            question: "Comment est votre humeur ?",
+            text: "Comment est votre humeur ?",
             options: [
                 { text: "Rire aux larmes", nextStep: 6 },
                 { text: "Ça arrive", nextStep: 6 },
@@ -38,15 +39,15 @@ export default function Chatbot() {
             ],
         },
         {
-            question: "Diagnostic : Peu de symptômes.",
+            text: "Diagnostic : Peu de symptômes.",
             options: [{ text: "Retour", nextStep: 0 }],
         },
         {
-            question: "Diagnostic : Peu de symptômes.",
+            text: "Diagnostic : Peu de symptômes.",
             options: [{ text: "Retour", nextStep: 1 }],
         },
         {
-            question: "Avez-vous des douleurs articulaires ?",
+            text: "Avez-vous des douleurs articulaires ?",
             options: [
                 { text: "Oui, souvent", nextStep: 7 },
                 { text: "Parfois", nextStep: 7 },
@@ -54,7 +55,7 @@ export default function Chatbot() {
             ],
         },
         {
-            question: "Avez-vous de la sécheresse intime ?",
+            text: "Avez-vous de la sécheresse intime ?",
             options: [
                 { text: "Oui, inquiétude", nextStep: 8 },
                 { text: "Parfois", nextStep: 8 },
@@ -62,7 +63,11 @@ export default function Chatbot() {
             ],
         },
         {
-            question: "Diagnostic : Symptômes intenses. Découvrez le Kit Ménopause.",
+            text: "Diagnostic : Symptômes intenses. Découvrez le Kit Ménopause.",
+            options: [{ text: "Retour", nextStep: 0 }],
+        },
+        {
+            text: "Diagnostic : Symptômes modérés.",
             options: [{ text: "Retour", nextStep: 0 }],
         },
     ];
@@ -78,11 +83,22 @@ export default function Chatbot() {
         setUserTyping(true);
         setTimeout(() => {
             if (nextStep !== undefined) {
-                setMessages((prevMessages) => [
-                    ...prevMessages,
-                    { sender: "bot", text: steps[nextStep].question },
-                ]);
-                setStep(nextStep);
+                if ([8, 6].includes(nextStep)) {  // Check if it's a final diagnosis step
+                    const diagnosisText = nextStep === 8 ? 
+                        "Diagnostic : Symptômes intenses. Découvrez le Kit Ménopause." : 
+                        "Diagnostic : Symptômes modérés.";
+                    setMessages((prevMessages) => [
+                        ...prevMessages,
+                        { sender: "bot", text: diagnosisText },
+                    ]);
+                    setFinalDiagnosis(diagnosisText);
+                } else {
+                    setMessages((prevMessages) => [
+                        ...prevMessages,
+                        { sender: "bot", text: steps[nextStep].text },
+                    ]);
+                    setStep(nextStep);
+                }
             } else {
                 setMessages((prevMessages) => [
                     ...prevMessages,
