@@ -10,7 +10,7 @@ export default function Header() {
                 {/* Logo */}
                 <Link href="/">
                     <Image
-                        src="/logo.jpg"
+                        src="/logo.png"
                         alt="Ventilo Care"
                         width={137}
                         height={83}

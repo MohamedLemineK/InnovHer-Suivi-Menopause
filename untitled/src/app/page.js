@@ -87,7 +87,7 @@ export default function Chatbot() {
                     {/* Logo */}
                     <Link href="/">
                         <img
-                            src="/logo.jpg" // Ensure the logo file is placed in the public folder as "logo.jpg"
+                            src="/logo.png" // Ensure the logo file is placed in the public folder as "logo.jpg"
                             alt="Ventilo Care"
                             className="w-32 h-auto object-cover rounded-full shadow-lg"
                         />
