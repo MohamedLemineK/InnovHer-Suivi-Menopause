@@ -11,6 +11,8 @@ import {
     FaBoxOpen,
 } from 'react-icons/fa';
 import ImageWithFallback from '../components/ImageWithFallback';
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function PacksPage() {
     const allPacks = [
@@ -41,8 +43,10 @@ export default function PacksPage() {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100 p-8">
-            <h1 className="text-5xl font-extrabold text-center text-purple-700 mb-12">
+        <>
+        <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100 p-8 ">
+            <Header />
+            <h1 className="text-5xl font-extrabold text-center text-purple-700 mb-12 mt-16">
                 Découvrez Nos Packs Exclusifs
             </h1>
 
@@ -89,6 +93,9 @@ export default function PacksPage() {
                     </div>
                 ))}
             </div>
+
         </div>
+    <Footer />
+    </>
     );
 }

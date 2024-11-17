@@ -5,6 +5,8 @@ import { Element, scroller } from "react-scroll";
 import questionnaire from "../../public/data/questionsData.json";
 import Link from "next/link";
 import Bilan from "../app/components/Bilan";
+import Header from "../app/components/Header";
+import Footer from "@/app/components/Footer";
 
 export default function Chatbot() {
     const [userAnswers, setUserAnswers] = useState({});
@@ -69,50 +71,13 @@ export default function Chatbot() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-100 to-purple-200">
-            {/* Header */}
-            <header className="fixed top-0 left-0 w-full bg-purple-700 text-white z-50 shadow-lg">
-                <div className="flex justify-between items-center px-8 py-4">
-                    <Link href="/">
-                        <img
-                            src="/logo.png"
-                            alt="Ventilo Care"
-                            className="w-32 h-auto object-cover rounded-full shadow-md"
-                        />
-                    </Link>
-                    <nav>
-                        <ul className="flex space-x-6 font-semibold">
-                            <li>
-                                <Link href="/" className="hover:underline">
-                                    Accueil
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/diagnostic" className="hover:underline">
-                                    Diagnostic
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/about" className="hover:underline">
-                                    À Propos
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/contact" className="hover:underline">
-                                    Contact
-                                </Link>
-                            </li>
-                        </ul>
-                    </nav>
-                    <button className="bg-white text-purple-700 px-4 py-2 rounded-full hover:bg-purple-100 shadow-md">
-                        Besoin d'aide
-                    </button>
-                </div>
-            </header>
+        <div className="min-h-screen bg-gradient-to-br #f3e8ff">
+
+            <Header />
 
             {/* Questions Section */}
             {!isComplete ? (
-                <div className="flex flex-col items-center mt-28">
+                <div className="flex flex-col items-center mt-16">
                     {steps.map((step, index) => (
                         <Element
                             key={index}
@@ -129,7 +94,7 @@ export default function Chatbot() {
                                     <button
                                         key={i}
                                         onClick={() => handleAnswerChange(index, option.text)}
-                                        className={`p-4 border rounded-full transition-all duration-300 text-left ${
+                                        className={`p-4 border rounded-full transition-all duration-300 text-center ${
                                             (userAnswers[index] || []).includes(option.text)
                                                 ? "bg-purple-700 text-white"
                                                 : "bg-white hover:bg-purple-100"
@@ -165,44 +130,7 @@ export default function Chatbot() {
                 <Bilan userAnswers={userAnswers} />
             )}
 
-            {/* Footer */}
-            <footer className="bg-purple-800 text-white text-center py-4 mt-10 rounded-t-lg">
-                <p className="text-sm">
-                    Ventilo Care : Un espace pour accompagner les femmes en périménopause avec une approche
-                    pluridisciplinaire.
-                </p>
-                <div className="flex justify-center space-x-4 mt-2">
-                    <a href="mailto:floriane@ventilo.care" className="hover:underline">
-                        Contact
-                    </a>
-                    <a
-                        href="https://www.instagram.com/ventilo.care"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:underline"
-                    >
-                        Instagram
-                    </a>
-                    <a
-                        href="https://ventilo.substack.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:underline"
-                    >
-                        Newsletter
-                    </a>
-                </div>
-                <div className="text-xs mt-2">
-                    <span>© 2024 Ventilo Care | </span>
-                    <Link href="/conditions-d-utilisation" className="hover:underline">
-                        Conditions d'utilisation
-                    </Link>{" "}
-                    |{" "}
-                    <Link href="/mentions-legales" className="hover:underline">
-                        Mentions légales
-                    </Link>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }
